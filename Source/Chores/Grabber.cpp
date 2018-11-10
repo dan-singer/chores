@@ -3,6 +3,9 @@
 #include "Grabber.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+
+#define PRINT(x) UE_LOG(LogTemp, Warning, TEXT(x));
+
 // Sets default values for this component's properties
 UGrabber::UGrabber()
 {
@@ -18,17 +21,15 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupInputComponent();
-
 	// ...
-	
 }
+
 
 void UGrabber::SetupInputComponent()
 {
 	UInputComponent* input = GetOwner()->FindComponentByClass<UInputComponent>();
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (!input)
+	if (!input || !PhysicsHandle)
 		return;
 	input->BindAction("Interact", EInputEvent::IE_Pressed, this, &UGrabber::HandleInteract);
 }
@@ -39,6 +40,8 @@ bool UGrabber::GetTraceInFront(FHitResult* outHit)
 	FRotator direction;
 
 	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (!controller)
+		return false;
 	controller->GetPlayerViewPoint(start, direction);
 
 
@@ -57,6 +60,8 @@ FVector UGrabber::GetInteractLocation()
 	FRotator direction;
 
 	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (!controller)
+		return FVector();
 	controller->GetPlayerViewPoint(start, direction);
 
 	return start + direction.Vector() * InteractDisplacement;
@@ -66,6 +71,8 @@ FVector UGrabber::GetInteractLocation()
 
 void UGrabber::HandleInteract()
 {
+	if (!PhysicsHandle)
+		return;
 	if (PhysicsHandle->GetGrabbedComponent()) {
 		PhysicsHandle->ReleaseComponent();
 	}
@@ -82,6 +89,11 @@ void UGrabber::HandleInteract()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!PhysicsHandle) {
+		PRINT("No handle");
+		return;
+	}
 
 	FHitResult hit;
 	if (PhysicsHandle->GetGrabbedComponent()) {

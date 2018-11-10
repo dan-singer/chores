@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "CharacterBase.h"
-
-
+#include "Grabber.h"
 // Sets default values
 ACharacterBase::ACharacterBase()
 {
@@ -18,6 +17,7 @@ void ACharacterBase::BeginPlay()
 	
 }
 
+
 // Called every frame
 void ACharacterBase::Tick(float DeltaTime)
 {
@@ -29,6 +29,10 @@ void ACharacterBase::Tick(float DeltaTime)
 void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	UGrabber* grabber = FindComponentByClass<UGrabber>();
+	if (grabber) {
+		grabber->SetupInputComponent();
+	}
 
 }
 

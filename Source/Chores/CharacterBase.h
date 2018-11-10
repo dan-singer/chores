@@ -4,7 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Camera/CameraActor.h"
 #include "CharacterBase.generated.h"
+
+
+
+class ACharacterBase;
+
+USTRUCT(BlueprintType)
+struct FMinigame
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ACharacterBase* character;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString instructions;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<ACameraActor*> Cameras;
+};
+
 
 UCLASS()
 class CHORES_API ACharacterBase : public ACharacter
@@ -18,6 +37,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void MinigameReady(FMinigame gameData);
 
 public:	
 	// Called every frame
