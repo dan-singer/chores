@@ -91,7 +91,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (!PhysicsHandle) {
-		PRINT("No handle");
+		//PRINT("");
 		return;
 	}
 
