@@ -18,9 +18,63 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
+	SetupInputComponent();
 
 	// ...
 	
+}
+
+void UGrabber::SetupInputComponent()
+{
+	UInputComponent* input = GetOwner()->FindComponentByClass<UInputComponent>();
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (!input)
+		return;
+	input->BindAction("Interact", EInputEvent::IE_Pressed, this, &UGrabber::HandleInteract);
+}
+
+bool UGrabber::GetTraceInFront(FHitResult* outHit)
+{
+	FVector start;
+	FRotator direction;
+
+	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	controller->GetPlayerViewPoint(start, direction);
+
+
+	bool hit = GetWorld()->LineTraceSingleByChannel(
+		*outHit,
+		start,
+		start + direction.Vector() * TraceRange,
+		ECollisionChannel::ECC_GameTraceChannel1
+	);
+	return hit;
+}
+
+FVector UGrabber::GetInteractLocation()
+{
+	FVector start;
+	FRotator direction;
+
+	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	controller->GetPlayerViewPoint(start, direction);
+
+	return start + direction.Vector() * InteractDisplacement;
+
+}
+
+
+void UGrabber::HandleInteract()
+{
+	if (PhysicsHandle->GetGrabbedComponent()) {
+		PhysicsHandle->ReleaseComponent();
+	}
+	else {
+		FHitResult hit;
+		if (GetTraceInFront(&hit)) {
+			PhysicsHandle->GrabComponent(hit.GetComponent(), NAME_None, hit.GetActor()->GetActorLocation(), true);
+		}
+	}
 }
 
 
@@ -29,27 +83,10 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	FVector start;
-	FRotator direction;
 	FHitResult hit;
-	float length = 1000;
-
-	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	controller->GetPlayerViewPoint(start, direction);
-
-	GetWorld()->LineTraceSingleByChannel(
-		hit,
-		start,
-		start + direction.Vector() * length,
-		ECollisionChannel::ECC_GameTraceChannel1
-	);
-
-	//TODO physics handle stuff
-
-
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *hit.Location.ToString());
-
-
+	if (PhysicsHandle->GetGrabbedComponent()) {
+		PhysicsHandle->SetTargetLocation(GetInteractLocation());
+	}
 	// ...
 }
 
