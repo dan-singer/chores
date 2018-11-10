@@ -31,10 +31,23 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 	FVector start;
 	FRotator direction;
+	FHitResult hit;
+	float length = 1000;
 
 	APlayerController* controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 	controller->GetPlayerViewPoint(start, direction);
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *start.ToString());
+
+	GetWorld()->LineTraceSingleByChannel(
+		hit,
+		start,
+		start + direction.Vector() * length,
+		ECollisionChannel::ECC_GameTraceChannel1
+	);
+
+	//TODO physics handle stuff
+
+
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *hit.Location.ToString());
 
 
 	// ...
