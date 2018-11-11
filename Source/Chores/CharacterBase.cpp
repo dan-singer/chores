@@ -17,6 +17,10 @@ void ACharacterBase::BeginPlay()
 	
 }
 
+void ACharacterBase::MinigameReady(FMinigame gameData)
+{
+}
+
 // Called every frame
 void ACharacterBase::Tick(float DeltaTime)
 {

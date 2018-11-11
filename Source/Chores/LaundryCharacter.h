@@ -33,7 +33,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	virtual void Reset() override;
+	virtual void MinigameReady(FMinigame data) override;
 
 	void SpawnBall();
 

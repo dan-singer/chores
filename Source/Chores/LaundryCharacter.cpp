@@ -8,14 +8,11 @@
 void ALaundryCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-
-
 }
 
-void ALaundryCharacter::Reset()
+void ALaundryCharacter::MinigameReady(FMinigame gameData)
 {
-	Super::Reset();
+	Super::MinigameReady(gameData);
 	auto* camManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 	camManager->ViewYawMin = 0;
 	camManager->ViewYawMax = 180;

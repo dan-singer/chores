@@ -38,8 +38,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void MinigameReady(FMinigame gameData);
+	UFUNCTION(BlueprintCallable)
+	virtual void MinigameReady(FMinigame gameData);
 
 public:	
 	// Called every frame
