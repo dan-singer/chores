@@ -17,7 +17,6 @@ void ACharacterBase::BeginPlay()
 	
 }
 
-
 // Called every frame
 void ACharacterBase::Tick(float DeltaTime)
 {

@@ -16,15 +16,26 @@ class CHORES_API ALaundryCharacter : public ACharacterBase
 	GENERATED_BODY()
 
 private:
+	
 	UPhysicsHandleComponent* PhysicsHandle;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> BallClass;
+
+	AActor* CurrentBall;
 
 	void HandleHorizontal(float value);
 	void HandleVertical(float value);
+	void HandleFire();
 
 	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void Reset() override;
+
+	void SpawnBall();
 
 public:
 	// Called every frame
