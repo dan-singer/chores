@@ -22,6 +22,8 @@ struct FMinigame
 	FString instructions;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<ACameraActor*> Cameras;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float duration = 5.0f;
 };
 
 
