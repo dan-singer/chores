@@ -33,7 +33,7 @@ public:
 	void NextScene() {
 		++CurrentSceneIteration;
 		if (CurrentSceneIteration > TotalSceneIterations) {
-			// TODO UGameplayStatics::OpenLevel(GetWorld(), "End");
+			UGameplayStatics::OpenLevel(GetWorld(), "EndScreen");
 		}
 		else {
 			UGameplayStatics::OpenLevel(GetWorld(), "Main");
