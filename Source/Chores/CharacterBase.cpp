@@ -2,6 +2,7 @@
 
 #include "CharacterBase.h"
 #include "Grabber.h"
+#include "Kismet/GameplayStatics.h"
 // Sets default values
 ACharacterBase::ACharacterBase()
 {
@@ -19,6 +20,9 @@ void ACharacterBase::BeginPlay()
 
 void ACharacterBase::MinigameReady(FMinigame gameData)
 {
+	auto* camManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+	camManager->ViewYawMin = 0;
+	camManager->ViewYawMax = 360;
 }
 
 // Called every frame
