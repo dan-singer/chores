@@ -22,7 +22,7 @@ void ACharacterBase::MinigameReady(FMinigame gameData)
 {
 	auto* camManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 	camManager->ViewYawMin = 0;
-	camManager->ViewYawMax = 360;
+	camManager->ViewYawMax = 359.998993f;
 }
 
 // Called every frame
