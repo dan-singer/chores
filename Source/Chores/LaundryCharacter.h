@@ -22,6 +22,12 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> BallClass;
 
+	UPROPERTY(EditAnywhere)
+	float ImpulseMagnitude = 2000;
+	UPROPERTY(EditAnywhere)
+	float BallOffset = 300;
+
+
 	AActor* CurrentBall;
 
 	void HandleHorizontal(float value);

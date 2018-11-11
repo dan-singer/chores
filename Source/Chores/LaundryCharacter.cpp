@@ -47,7 +47,7 @@ void ALaundryCharacter::Tick(float DeltaTime)
 		auto* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		pc->GetPlayerViewPoint(start, rotation);
 
-		PhysicsHandle->SetTargetLocation(start + rotation.Vector() * 150);
+		PhysicsHandle->SetTargetLocation(start + rotation.Vector() * BallOffset);
 		UE_LOG(LogTemp, Warning, TEXT("Here"));
 	}
 }
@@ -72,7 +72,7 @@ void ALaundryCharacter::HandleFire()
 		auto* pc = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 		pc->GetPlayerViewPoint(start, rotation);
 
-		ballComp->AddImpulse(rotation.Vector() * 500, NAME_None, true);
+		ballComp->AddImpulse(rotation.Vector() * ImpulseMagnitude, NAME_None, true);
 		
 		CurrentBall = nullptr;
 	}
